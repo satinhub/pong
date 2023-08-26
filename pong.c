@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ncurses.h>
 
 #define STR 29
 #define ROW 99
@@ -24,6 +25,7 @@ int main() {
         frame(field);
         input = racket(field, &left_racket, &right_racket);
         ball(field, left_racket, right_racket, &ball_i, &ball_j, &dir_x, &dir_y);
+
         // Ball is at the rackets level && not on the rackets
         if (ball_j == 1 && ball_i != left_racket && ball_i != left_racket + 1 && ball_i != left_racket - 1)
             goal(&right_score, &left_racket, &right_racket, &ball_i, &ball_j, &dir_x, &dir_y);
@@ -104,20 +106,16 @@ void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, 
     else if (i == STR - 2 && (*dir_x) == -1 && (*dir_y) == 1)
         (*dir_y) *= -1;
     else if (j == 2 && (*dir_x) == -1 && (*dir_y) == 1 &&
-             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 ||
-              (*ball_i) == left_racket - 1))
+             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1))
         (*dir_x) *= -1;
     else if (j == 2 && (*dir_x) == -1 && (*dir_y) == -1 &&
-             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 ||
-              (*ball_i) == left_racket - 1))
+             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1))
         (*dir_x) *= -1;
     else if (j == ROW - 3 && (*dir_x) == 1 && (*dir_y) == 1 &&
-             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 ||
-              (*ball_i) == right_racket - 1))
+             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1))
         (*dir_x) *= -1;
     else if (j == ROW - 3 && (*dir_x) == 1 && (*dir_y) == -1 &&
-             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 ||
-              (*ball_i) == right_racket - 1))
+             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1))
         (*dir_x) *= -1;
 
     i += (*dir_y);
