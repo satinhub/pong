@@ -48,10 +48,9 @@ int main() {
         }
         usleep(30 * 1000);
         mvprintw(0, 0, "LEFT PLAYER SCORE = %d\n", left_score);
-        mvprintw(0, 77, "RIGHT PLAYER SCORE = %d\n", right_score);
+        mvprintw(0, 76, "RIGHT PLAYER SCORE = %d\n", right_score);
 
         draw_field(field);
-        refresh();
     } while (input != 'q');
 
     endwin();  // End ncurses
