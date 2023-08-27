@@ -24,35 +24,35 @@ int main() {
 
     initscr();  // Init ncurses screen
 
-    while (input != 'q') {
+    do
+    {
         nodelay(stdscr, true);
 
         frame(field);
         input = racket(field, &left_racket, &right_racket);
         ball(field, left_racket, right_racket, &ball_i, &ball_j, &dir_x, &dir_y);
 
-        // Ball is at the racket level && not on the racket
-        if (ball_j == 2 && ball_i != left_racket && ball_i != left_racket + 1 && ball_i != left_racket - 1)
+        // Ball is at the racket(goal) level
+        if (ball_j == 1)
             goal(&right_score, &left_racket, &right_racket, &ball_i, &ball_j, &dir_x, &dir_y);
-        else if (ball_j == ROW - 3 && ball_i != right_racket && ball_i != right_racket + 1 &&
-                 ball_i != right_racket - 1)
+        else if (ball_j == ROW - 2)
             goal(&left_score, &left_racket, &right_racket, &ball_i, &ball_j, &dir_x, &dir_y);
 
         clear();
-        if (left_score == 5) {
+        if (left_score == 11) {
             winner = 'l';
             break;
-        } else if (right_score == 5) {
+        } else if (right_score == 11) {
             winner = 'r';
             break;
         }
-        usleep(50 * 1000);
+        usleep(30 * 1000);
         mvprintw(0, 0, "LEFT PLAYER SCORE = %d\n", left_score);
         mvprintw(0, 77, "RIGHT PLAYER SCORE = %d\n", right_score);
 
         draw_field(field);
         refresh();
-    }
+    } while (input != 'q');
 
     endwin();  // End ncurses
 
@@ -118,36 +118,31 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
 }
 
 void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, int *ball_j, int *dir_x, int *dir_y) {
-    int i = *ball_i, j = *ball_j;
+    field[*ball_i][*ball_j] = 'o';
 
-    field[i][j] = 'o';
-
-    if (i == 1 && (*dir_x) == 1 && (*dir_y) == -1)
+    if ((*ball_i) == 1 && (*dir_x) == 1 && (*dir_y) == -1)
         (*dir_y) *= -1;
-    else if (i == 1 && (*dir_x) == -1 && (*dir_y) == -1)
+    else if ((*ball_i) == 1 && (*dir_x) == -1 && (*dir_y) == -1)
         (*dir_y) *= -1;
-    else if (i == STR - 2 && (*dir_x) == 1 && (*dir_y) == 1)
+    else if ((*ball_i) == STR - 2 && (*dir_x) == 1 && (*dir_y) == 1)
         (*dir_y) *= -1;
-    else if (i == STR - 2 && (*dir_x) == -1 && (*dir_y) == 1)
+    else if ((*ball_i) == STR - 2 && (*dir_x) == -1 && (*dir_y) == 1)
         (*dir_y) *= -1;
-    else if (j == 2 && (*dir_x) == -1 && (*dir_y) == 1 &&
+    else if ((*ball_j) == 2 && (*dir_x) == -1 && (*dir_y) == 1 &&
              ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1))
         (*dir_x) *= -1;
-    else if (j == 2 && (*dir_x) == -1 && (*dir_y) == -1 &&
+    else if ((*ball_j) == 2 && (*dir_x) == -1 && (*dir_y) == -1 &&
              ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1))
         (*dir_x) *= -1;
-    else if (j == ROW - 3 && (*dir_x) == 1 && (*dir_y) == 1 &&
+    else if ((*ball_j) == ROW - 3 && (*dir_x) == 1 && (*dir_y) == 1 &&
              ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1))
         (*dir_x) *= -1;
-    else if (j == ROW - 3 && (*dir_x) == 1 && (*dir_y) == -1 &&
+    else if ((*ball_j) == ROW - 3 && (*dir_x) == 1 && (*dir_y) == -1 &&
              ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1))
         (*dir_x) *= -1;
 
-    i += (*dir_y);
-    j += (*dir_x);
-
-    *ball_i = i;
-    *ball_j = j;
+    (*ball_i) += (*dir_y);
+    (*ball_j) += (*dir_x);
 }
 
 void goal(int *score, int *left_racket, int *right_racket, int *ball_i, int *ball_j, int *dir_x, int *dir_y) {
