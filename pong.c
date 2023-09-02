@@ -24,8 +24,7 @@ int main() {
 
     initscr();  // Init ncurses screen
 
-    do
-    {
+    do {
         nodelay(stdscr, true);
 
         frame(field);
@@ -116,7 +115,8 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
     return input;
 }
 
-void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, int *ball_j, int *dir_x, int *dir_y) {
+void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, int *ball_j, int *dir_x,
+          int *dir_y) {
     field[*ball_i][*ball_j] = 'o';
 
     if ((*ball_i) == 1 && (*dir_x) == 1 && (*dir_y) == -1)
