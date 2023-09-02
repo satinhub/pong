@@ -90,7 +90,7 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
             break;
         }
         case 'x': {
-            if ((*left_racket) < 25) (*left_racket)++;
+            if ((*left_racket) < STR - 4) (*left_racket)++;
             break;
         }
         case 'j': {
@@ -98,7 +98,7 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
             break;
         }
         case 'n': {
-            if ((*right_racket) < 25) (*right_racket)++;
+            if ((*right_racket) < STR - 4) (*right_racket)++;
             break;
         }
     }
@@ -121,8 +121,6 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
 
 void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, int *ball_j, int *dir_x,
           int *dir_y) {
-    field[*ball_i][*ball_j] = 'o';
-
     if ((*ball_i) == 1 && (*dir_x) == 1 && (*dir_y) == -1)
         (*dir_y) *= -1;
     else if ((*ball_i) == 1 && (*dir_x) == -1 && (*dir_y) == -1)
@@ -150,6 +148,8 @@ void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, 
 
     (*ball_i) += (*dir_y);
     (*ball_j) += (*dir_x);
+
+    field[*ball_i][*ball_j] = 'o';
 }
 
 void goal(int *score, int *left_racket, int *right_racket, int *ball_i, int *ball_j, int *dir_x, int *dir_y) {
