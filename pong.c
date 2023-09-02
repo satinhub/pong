@@ -86,31 +86,35 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
     // Update rackets coordinates
     switch (input) {
         case 's': {
-            if ((*left_racket) > 2) (*left_racket)--;
+            if ((*left_racket) > 3) (*left_racket)--;
             break;
         }
         case 'x': {
-            if ((*left_racket) < 26) (*left_racket)++;
+            if ((*left_racket) < 25) (*left_racket)++;
             break;
         }
         case 'j': {
-            if ((*right_racket) > 2) (*right_racket)--;
+            if ((*right_racket) > 3) (*right_racket)--;
             break;
         }
         case 'n': {
-            if ((*right_racket) < 26) (*right_racket)++;
+            if ((*right_racket) < 25) (*right_racket)++;
             break;
         }
     }
 
     // Change rackets positions
-    field[*left_racket][1] = '[';
+    field[*left_racket + 2][1] = '[';
     field[*left_racket + 1][1] = '[';
+    field[*left_racket][1] = '[';
     field[*left_racket - 1][1] = '[';
+    field[*left_racket - 2][1] = '[';
 
-    field[*right_racket][ROW - 2] = ']';
+    field[*right_racket + 2][ROW - 2] = ']';
     field[*right_racket + 1][ROW - 2] = ']';
+    field[*right_racket][ROW - 2] = ']';
     field[*right_racket - 1][ROW - 2] = ']';
+    field[*right_racket - 2][ROW - 2] = ']';
 
     return input;
 }
@@ -128,16 +132,20 @@ void ball(char field[STR][ROW], int left_racket, int right_racket, int *ball_i, 
     else if ((*ball_i) == STR - 2 && (*dir_x) == -1 && (*dir_y) == 1)
         (*dir_y) *= -1;
     else if ((*ball_j) == 2 && (*dir_x) == -1 && (*dir_y) == 1 &&
-             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1))
+             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1 ||
+              (*ball_i) == left_racket + 2 || (*ball_i) == left_racket - 2))
         (*dir_x) *= -1;
     else if ((*ball_j) == 2 && (*dir_x) == -1 && (*dir_y) == -1 &&
-             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1))
+             ((*ball_i) == left_racket || (*ball_i) == left_racket + 1 || (*ball_i) == left_racket - 1 ||
+              (*ball_i) == left_racket + 2 || (*ball_i) == left_racket - 2))
         (*dir_x) *= -1;
     else if ((*ball_j) == ROW - 3 && (*dir_x) == 1 && (*dir_y) == 1 &&
-             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1))
+             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1 ||
+              (*ball_i) == right_racket + 2 || (*ball_i) == right_racket - 2))
         (*dir_x) *= -1;
     else if ((*ball_j) == ROW - 3 && (*dir_x) == 1 && (*dir_y) == -1 &&
-             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1))
+             ((*ball_i) == right_racket || (*ball_i) == right_racket + 1 || (*ball_i) == right_racket - 1 ||
+              (*ball_i) == right_racket + 2 || (*ball_i) == right_racket - 2))
         (*dir_x) *= -1;
 
     (*ball_i) += (*dir_y);
