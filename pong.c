@@ -93,11 +93,11 @@ int racket(char field[STR][ROW], int *left_racket, int *right_racket) {
             if ((*left_racket) < STR - 4) (*left_racket)++;
             break;
         }
-        case 'j': {
+        case 'k': {
             if ((*right_racket) > 3) (*right_racket)--;
             break;
         }
-        case 'n': {
+        case 'm': {
             if ((*right_racket) < STR - 4) (*right_racket)++;
             break;
         }
